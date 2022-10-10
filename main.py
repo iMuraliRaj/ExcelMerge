@@ -1,16 +1,35 @@
-# This is a sample Python script.
+import openpyxl
+from openpyxl import Workbook
+from openpyxl.styles import Alignment
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+# work_book = Workbook("D:\\check\\RN\\trendnew")
+# work_sheet = work_book.active
+work_book = openpyxl.load_workbook("E:\\File\\Trend.xlsx")
+work_sheet = work_book["Sheet1"]
+
+numberOfRows = work_sheet.max_row
+
+listOne = []
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+for i in range(2,numberOfRows+1):
+    a=work_sheet.cell(i,1)
+    listOne.append(a.value)
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+for i in range(0, len(listOne)):
+    for j in range(i+1, len(listOne)):
+        if(listOne[i] == listOne[j]):
+            print(listOne[j]);
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+# cells to merge
+work_sheet.merge_cells('A2:A7')
+
+cell = work_sheet.cell(row=1, column=1)
+# value of cell
+cell.value = 'quick fox jumps over the lazy dog'
+# aligment of data in cell
+cell.alignment = Alignment(horizontal='center', vertical='center')
+
+# save the workbook
+work_book.save('E:\\File\\Trend1.xlsx')
